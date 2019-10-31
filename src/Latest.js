@@ -1,38 +1,39 @@
 import React from 'react';
+import axios from 'axios';
+import API FROM './api';
 
 // class for fetching latest comics using redux
 // when the user goes to the latest page,
 // the api call will fetch the latest image
 // and it will be rendered on the page
 
-const API = 'https://xkcd.now.sh/?comic=';
-const DEFAULT_QUERY = 'redux';
+export default class PersonList extends React.Component {
+  state = {
+    comics: []
+  }
 
-class Latest extends React.Component {
-	constructor(props);
-	super(props);
-	this.state = {
-		latestImages: [],
-	};
-	
-}
+  componentDidMount() {
+    API.get(`latest`)
+      .then(res => {
+        const comics = res.data;
+        this.setState({ comics });
+      })
+  }
 
-componentDidMount() {
-	fetch(API + DEFAULT_QUERY)
-	.then(response => response.json())
-	.then(data => this.setState({latest: data.latest}));
-}
+  render() {
+    return (
+      <div>
+        { this.state.comics.map(comic => <div>{comic.latest}</div>)}
+      </div>
+    )
+  }
 
-	render() {
-		const { latestImages } = this.state;
+  class Latest extends React.Component {
+  	render() {
+  		<div>
+  			<Comic />
+  		</div>
+  	}
+  }
 
-		return (
-			{latestImages.map(latestImage =>
-				<div key={latestImage.num}>
-					<p href={latestImage.url}>{latestImage.latest}</p>
-				</div>
-			)}
-		);
-	}
-
-export default Latest;
+  export default Latest;

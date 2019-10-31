@@ -1,38 +1,57 @@
-import React from 'react';
-
-const API = 'https://xkcd.now.sh/?comic=';
-const DEFAULT_QUERY = 'redux';
-
 // class for fetching a comic by number using redux
 // when the user goes to the search page,
 // the api call will fetch the numbered image
 // and it will be rendered on the page
 
-class Latest extends React.Component {
-	constructor(props);
-	super(props);
-	this.state = {
-		nowImages: [],
-	};
-	
+import React from 'react';
+import axios from 'axios';
+import API FROM './api';
+
+export default class Search extends React.Component {
+  state = {
+    num: '',
+  }
+
+  handleChange = event => {
+    this.setState({ num: event.target.value });
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const comic = {
+      num: this.state.num
+    };
+
+    API.get(`num`, { comic })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            <input type="text" num="num" onChange={this.handleChange} />
+          </label>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+    )
+  }
 }
 
-componentDidMount() {
-	fetch(API + DEFAULT_QUERY)
-	.then(response => response.json())
-	.then(data => this.setState({num: data.num}));
-}
 
-	render() {
-		const { nowImages } = this.state;
 
-		return (
-			{nowImages.map(nowImage =>
-				<div key={nowImage.num}>
-					<p href={nowImage.url}>{nowImage.num}</p>
-				</div>
-			)}
-		);
-	}
+  class Search extends React.Component {
+    render() {
+      <div>
+        <Comic />
+      </div>
+    }
+  }
 
-export default Search;
+  export default Search;

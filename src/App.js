@@ -1,63 +1,49 @@
-import React from 'react';
-import ReactDOM from "react-dom";
-import { App } from 'react'; 
-import { BrowserRouter as Router,
-	Route,
-	NavLink
-	 }
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import './app.css';
 
-// router for links to app pages - latest and search
 export default function App() {
-	  render() {
-		  	return (
-			  	<Router>
-			  		<div>
-				  		<div>
-				  			<NavLink to="/" activeClassName="latest">
-								Latest
-							</NavLink>
-				  		</div>
-				  		<div>
-				  			<NavLink to="/search" activeClassName="search">
-								Search
-							</NavLink>
-				  		</div>
-			  			
-			  			<div>
-					  		 <Route path="/latest">
-					  		 	<Latest />
-					    	</Route>
+  return (
+    <Router>
+      <div>
+        <nav>
+          
+              <Link to="/latest">Latest</Link>
+   
+              <Link to="/search">Search</Link>
+            
+        </nav>
 
-					    	<Route path="/search">
-					    		<Search />
-					    	</Route>
-					    </div>
-			  		</div>
-			  	</Router>
-		  );
-	}
+        
+        <Switch>
+          <Route path="/search">
+            <Search />
+          </Route>
+          <Route path="/latest">
+            <Latest />
+          </Route>
+          <Route path="/">
+            <App />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+
+function Home() {
+  return <h2></h2>;
 }
 
 function Latest() {
-  return (
-    <div>
-      <h2>Latest</h2>
-    </div>
-  );
+  return <div><Latest data={this.state.data}/></div>;
 }
 
 function Search() {
-  return (
-    <div>
-      <h2>Search</h2>
-    </div>
-  );
+  return <h2></h2>;
 }
-
-
-ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
-  document.getElementById("root")
-);
